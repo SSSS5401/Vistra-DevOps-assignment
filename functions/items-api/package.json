@@ -1,0 +1,16 @@
+{
+  "name": "items-api",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+   "type": "module",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.948.0",
+    "@aws-sdk/lib-dynamodb": "^3.948.0"
+  },
+  "scripts": {
+    "build": "zip -r ../items-api.zip ."
+  }
+}
