@@ -8,10 +8,10 @@ output "whoami" {
 #   description = "The invoke URL of the API Gateway"
 # }
 
-# output "lambda_function_arn" {
-#   value       = module.lambda.lambda_arn
-#   description = "ARN of the Lambda function"
-# }
+output "lambda_function_arn" {
+  value       = module.lambda.lambda_function_arn
+  description = "ARN of the Lambda function"
+}
 
 # output "dynamodb_table_arn" {
 #   value       = module.dynamodb.table_arn

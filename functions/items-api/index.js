@@ -19,7 +19,9 @@ export const handler = async (event, context) => {
   let response;
   const headers = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*"
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers": "*",
   };
 
   const { httpMethod, path, body, pathParameters } = event;
@@ -33,7 +35,7 @@ export const handler = async (event, context) => {
   }
 
   try {
-    const parsedBody = JSON.parse(body || '{}');
+    const parsedBody = body || {};
     const id = pathParameters?.id;
     switch (httpMethod) {
       case "POST":

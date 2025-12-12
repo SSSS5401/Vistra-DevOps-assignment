@@ -23,3 +23,4 @@ variable "dynamodb_table_name" {
   default     = "items"
   description = "Name of the DynamoDB table"
 }
+
