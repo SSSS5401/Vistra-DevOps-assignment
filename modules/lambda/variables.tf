@@ -11,10 +11,6 @@ variable "function_name" {
 variable "source_path" {
   type        = string
   description = "The directory of lambda function code"
-  validation {
-    condition     = strcontains(var.source_path, path.root)
-    error_message = "The code directory must under project directory"
-  }
 }
 
 variable "execute_role" {
