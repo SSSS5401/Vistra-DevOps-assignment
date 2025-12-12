@@ -37,7 +37,7 @@ resource "aws_lambda_function" "this" {
     log_format            = "JSON"
     application_log_level = "INFO"
     system_log_level      = "WARN"
-    log_group = var.cloudwatch_log_group
+    log_group             = var.cloudwatch_log_group
   }
 
   tags = var.tags
