@@ -73,3 +73,18 @@ output "event_dlq_name" {
   value       = aws_sqs_queue.event_dlq.name
   description = "Name of the Event DLQ"
 }
+
+output "event_dlq_arn" {
+  value       = aws_sqs_queue.event_dlq.arn
+  description = "ARN of the Event DLQ"
+}
+
+output "event_rule_name" {
+  value       = aws_cloudwatch_event_rule.app_events.name
+  description = "Name of the EventBridge rule for app events"
+}
+
+output "scheduled_rule_name" {
+  value       = aws_cloudwatch_event_rule.scheduled_worker.name
+  description = "Name of the scheduled worker rule"
+}
