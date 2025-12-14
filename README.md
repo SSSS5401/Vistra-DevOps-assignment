@@ -86,6 +86,7 @@ See `functions/items-api/README.md` for function-specific details, request/respo
 
 - Add Terraform tests (e.g., using Terratest)
 - Add CloudWatch dashboards & alarms for observability (see `MONITORING.md`)
-- Add EventBridge event-driven processors
+- Add EventBridge event-driven processors (see `EVENTBRIDGE.md`)
+- Architecture diagram and design notes: `ARCHITECTURE.md`
 
 If you'd like, I can now: add tests, implement CloudWatch dashboards and alarms, or prepare PR-ready commits. Which should I do next?
