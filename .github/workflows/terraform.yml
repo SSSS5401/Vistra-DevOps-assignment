@@ -31,6 +31,4 @@ jobs:
         run: terraform validate
 
       - name: Run tfsec
-        uses: aquasecurity/tfsec-action@v1
-        with:
-          tfsec_version: latest
+        uses: aquasecurity/tfsec-action@v1.0.0
