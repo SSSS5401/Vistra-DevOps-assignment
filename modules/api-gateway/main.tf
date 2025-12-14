@@ -150,6 +150,7 @@ resource "aws_lambda_permission" "lambda_permission" {
 resource "aws_api_gateway_deployment" "deployment" {
   depends_on = [
     aws_api_gateway_integration.lambda,
+    aws_api_gateway_integration.options_integration,
   ]
 
   triggers = {
