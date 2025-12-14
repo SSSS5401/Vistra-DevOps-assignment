@@ -31,3 +31,21 @@ variable "tags" {
   description = "A map of tags to assign to the resource."
   default     = {}
 }
+
+variable "enable_access_logging" {
+  type        = bool
+  description = "Enable API Gateway access logging to CloudWatch Logs"
+  default     = true
+}
+
+variable "access_log_retention_in_days" {
+  type        = number
+  description = "Retention days for API Gateway access logs"
+  default     = 90
+}
+
+variable "access_log_group_kms_key_arn" {
+  type        = string
+  description = "Optional KMS Key ARN to encrypt API Gateway access logs"
+  default     = ""
+}

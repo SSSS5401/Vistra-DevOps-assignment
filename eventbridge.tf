@@ -1,7 +1,4 @@
-resource "aws_sqs_queue" "event_dlq" {
-  name = "${var.app_name}-events-dlq"
-  tags = local.common_tags
-}
+
 
 resource "aws_sqs_queue" "event_dlq_encrypted" {
   provider = aws

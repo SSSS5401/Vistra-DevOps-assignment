@@ -181,4 +181,72 @@ resource "aws_api_gateway_stage" "prod" {
   stage_name    = "prod"
 
   tags = var.tags
+
+  # Access logging to CloudWatch
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gw_access_logs.arn
+    format = "$context.identity.sourceIp - $context.identity.user - $context.requestTime $context.httpMethod $context.resourcePath $context.status $context.protocol"
+  }
+
+  depends_on = [aws_api_gateway_account.this]
+}
+
+
+# CloudWatch Log Group for API Gateway access logs
+resource "aws_cloudwatch_log_group" "api_gw_access_logs" {
+  name              = "/aws/apigateway/${var.apigateway_name}-access-logs"
+  retention_in_days = var.access_log_retention_in_days
+
+  # optional customer-managed key
+  kms_key_id = var.access_log_group_kms_key_arn != "" ? var.access_log_group_kms_key_arn : null
+
+  tags = var.tags
+}
+
+# IAM role for API Gateway to write access logs to CloudWatch
+resource "aws_iam_role" "apigw_cloudwatch_role" {
+  name = "${var.apigateway_name}-apigw-cloudwatch-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Action = "sts:AssumeRole",
+      Effect = "Allow",
+      Principal = { Service = "apigateway.amazonaws.com" }
+    }]
+  })
+
+  tags = var.tags
+}
+
+resource "aws_iam_role_policy" "apigw_cloudwatch_role_policy" {
+  name = "${var.apigateway_name}-apigw-cloudwatch-policy"
+  role = aws_iam_role.apigw_cloudwatch_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents"
+        ],
+        Resource = [
+          aws_cloudwatch_log_group.api_gw_access_logs.arn,
+          "${aws_cloudwatch_log_group.api_gw_access_logs.arn}:*"
+        ]
+      }
+    ]
+  })
+
+  depends_on = [aws_cloudwatch_log_group.api_gw_access_logs]
+}
+
+# Configure API Gateway account to use the role for CloudWatch
+resource "aws_api_gateway_account" "this" {
+  cloudwatch_role_arn = aws_iam_role.apigw_cloudwatch_role.arn
 }

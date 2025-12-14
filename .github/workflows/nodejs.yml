@@ -63,6 +63,6 @@ jobs:
         with:
           name: lambda-packages
           path: |
-            functions/items-api/../items-api.zip
-            functions/event-processor/../event-processor.zip
-            functions/scheduled-worker/../scheduled-worker.zip
+            functions/items-api/items-api.zip
+            functions/event-processor/event-processor.zip
+            functions/scheduled-worker/scheduled-worker.zip
