@@ -185,7 +185,7 @@ resource "aws_api_gateway_stage" "prod" {
   # Access logging to CloudWatch
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_gw_access_logs.arn
-    format = "$context.identity.sourceIp - $context.identity.user - $context.requestTime $context.httpMethod $context.resourcePath $context.status $context.protocol"
+    format          = "$context.identity.sourceIp - $context.identity.user - $context.requestTime $context.httpMethod $context.resourcePath $context.status $context.protocol"
   }
 
   depends_on = [aws_api_gateway_account.this]
@@ -210,8 +210,8 @@ resource "aws_iam_role" "apigw_cloudwatch_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Action = "sts:AssumeRole",
-      Effect = "Allow",
+      Action    = "sts:AssumeRole",
+      Effect    = "Allow",
       Principal = { Service = "apigateway.amazonaws.com" }
     }]
   })
@@ -230,13 +230,20 @@ resource "aws_iam_role_policy" "apigw_cloudwatch_role_policy" {
         Effect = "Allow",
         Action = [
           "logs:CreateLogGroup",
+          "logs:DescribeLogGroups"
+        ],
+        Resource = [
+          aws_cloudwatch_log_group.api_gw_access_logs.arn
+        ]
+      },
+      {
+        Effect = "Allow",
+        Action = [
           "logs:CreateLogStream",
-          "logs:DescribeLogGroups",
           "logs:DescribeLogStreams",
           "logs:PutLogEvents"
         ],
         Resource = [
-          aws_cloudwatch_log_group.api_gw_access_logs.arn,
           "${aws_cloudwatch_log_group.api_gw_access_logs.arn}:*"
         ]
       }

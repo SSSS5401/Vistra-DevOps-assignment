@@ -83,6 +83,31 @@ Workflows are provided to run on PRs and pushes:
   Lambda package.
 - `markdownlint.yml` - validates Markdown formatting.
 
+## Local Validation
+
+You can run a single, offline validation that checks formatting, Terraform
+configuration, Node build/packaging and simple repository conventions without
+needing AWS credentials.
+
+- Install dev dependencies:
+
+```bash
+npm install
+```
+
+- Run the combined validation:
+
+```bash
+npm run validate
+```
+
+What `npm run validate` does:
+- `terraform fmt -check -recursive` and `terraform init -backend=false && terraform validate` (no AWS access required)
+- Builds the function package (`functions/items-api`) and verifies the produced ZIP contains `index.js`
+- Runs a lightweight conventions checker (no tabs, no trailing whitespace, Markdown files start with `#`)
+
+These checks are designed to be run locally and in CI (workflows can call `npm run validate`).
+
 These workflows run without AWS credentials.
 
 ## Lambda Implementation Notes

@@ -14,7 +14,8 @@ resource "aws_s3_bucket_versioning" "bucket_version" {
 # Access log bucket for S3 access logs
 resource "aws_s3_bucket" "access_logs" {
   bucket = "${var.app_name}-logs"
-  acl    = "log-delivery-write"
+  # `acl` is deprecated; use the aws_s3_bucket_acl resource to set the
+  # `log-delivery-write` permission required for S3 access logging.
 
   server_side_encryption_configuration {
     rule {
@@ -61,4 +62,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_sse" {
       kms_master_key_id = aws_kms_key.vistra.arn
     }
   }
+}
+
+resource "aws_s3_bucket_acl" "access_logs_acl" {
+  bucket = aws_s3_bucket.access_logs.id
+  acl    = "log-delivery-write"
 }

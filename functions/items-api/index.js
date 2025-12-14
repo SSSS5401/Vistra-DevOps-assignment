@@ -87,7 +87,7 @@ export const handler = async (event, context) => {
         // );
         // Mock update
         response = { statusCode: 200, body: JSON.stringify({ id, ...parsedBody }) };
-        break;   
+        break;
       case 'DELETE':
         if (!path.startsWith('/items/')) throw new Error('Invalid path for DELETE');
         if (!id) throw new Error('Missing id');

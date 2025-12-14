@@ -1,0 +1,16 @@
+{
+  "name": "vistra-devops-assignment",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate:terraform": "terraform fmt -check -recursive && terraform init -backend=false && terraform validate",
+    "validate:node": "node ./scripts/validate_node_build.js",
+    "validate:conventions": "node ./scripts/check_conventions.js",
+    "validate": "npm run validate:terraform && npm run validate:node && npm run validate:conventions"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.9",
+    "glob": "^10.3.3"
+  }
+}
