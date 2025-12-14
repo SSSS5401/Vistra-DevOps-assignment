@@ -35,11 +35,12 @@ Prerequisites:
 - AWS CLI configured with appropriate credentials
 - Node.js 22 (for building functions)
 
-Build the Lambda package:
+Build the Lambda package and run the lightweight handler tests:
 
 ```bash
 cd functions/items-api
 npm ci
+npm test    # runs simple local handler tests
 npm run build
 ```
 
