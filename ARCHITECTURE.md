@@ -5,15 +5,15 @@
 ```mermaid
 flowchart LR
   subgraph AWS
-    S3[S3 Bucket\n(lambda packages)]
-    APIGW[API Gateway\nREST Proxy]
+    S3["S3 Bucket<br>(lambda packages)"]
+    APIGW["API Gateway<br>REST Proxy"]
     LambdaItems[Lambda: items-api]
     LambdaSched[Lambda: scheduled-worker]
     LambdaProc[Lambda: event-processor]
     DDB[DynamoDB Table]
     EB[EventBridge]
     DLQ[SQS DLQ]
-    CW[CloudWatch\nLogs, Metrics, Dashboard]
+    CW["CloudWatch<br>Logs, Metrics, Dashboard"]
   end
 
   S3 -->|deploy package| LambdaItems
