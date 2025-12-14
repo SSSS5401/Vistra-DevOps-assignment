@@ -24,3 +24,40 @@ variable "dynamodb_table_name" {
   description = "Name of the DynamoDB table"
 }
 
+# Monitoring thresholds
+variable "lambda_error_threshold" {
+  type        = number
+  default     = 5
+  description = "Alarm threshold for Lambda errors (sum per minute)"
+}
+
+variable "lambda_duration_threshold_ms" {
+  type        = number
+  default     = 3000
+  description = "Alarm threshold for Lambda duration (ms)"
+}
+
+variable "lambda_throttle_threshold" {
+  type        = number
+  default     = 1
+  description = "Alarm threshold for Lambda throttles (sum per minute)"
+}
+
+variable "api_5xx_threshold" {
+  type        = number
+  default     = 5
+  description = "Alarm threshold for API Gateway 5XX errors (sum per minute)"
+}
+
+variable "api_latency_threshold_ms" {
+  type        = number
+  default     = 1000
+  description = "Alarm threshold for API Gateway latency (ms)"
+}
+
+variable "dynamodb_throttle_threshold" {
+  type        = number
+  default     = 1
+  description = "Alarm threshold for DynamoDB throttled requests (sum per minute)"
+}
+
