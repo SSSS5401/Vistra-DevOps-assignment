@@ -38,7 +38,7 @@ resource "aws_s3_bucket_public_access_block" "bucket_pub_block" {
 }
 
 resource "aws_s3_bucket_logging" "bucket_logging" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket        = aws_s3_bucket.bucket.id
   target_bucket = aws_s3_bucket.access_logs.bucket
   target_prefix = "${var.app_name}/"
 }
