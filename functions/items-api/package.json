@@ -11,7 +11,7 @@
     "@aws-sdk/lib-dynamodb": "^3.948.0"
   },
   "scripts": {
-    "build": "node ./scripts/build.js",
+    "build": "zip -r ../items-api.zip .",
     "test": "node ./scripts/run-local-test.js"
   }
 }

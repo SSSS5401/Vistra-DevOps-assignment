@@ -102,6 +102,7 @@ npm run validate
 ```
 
 What `npm run validate` does:
+
 - `terraform fmt -check -recursive` and `terraform init -backend=false && terraform validate` (no AWS access required)
 - Builds the function package (`functions/items-api`) and verifies the produced ZIP contains `index.js`
 - Runs a lightweight conventions checker (no tabs, no trailing whitespace, Markdown files start with `#`)
