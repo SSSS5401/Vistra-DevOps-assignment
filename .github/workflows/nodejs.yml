@@ -30,12 +30,39 @@ jobs:
           npm ci
           npm run build
 
-      - name: Run tests
+      - name: Run tests (items-api)
         working-directory: functions/items-api
         run: npm test
 
-      - name: Upload package artifact
+      - name: Build items-api package
+        working-directory: functions/items-api
+        run: npm run build
+
+      - name: Run tests (event-processor)
+        working-directory: functions/event-processor
+        run: |
+          npm install
+          npm test
+
+      - name: Build event-processor package
+        working-directory: functions/event-processor
+        run: npm run build
+
+      - name: Run tests (scheduled-worker)
+        working-directory: functions/scheduled-worker
+        run: |
+          npm install
+          npm test
+
+      - name: Build scheduled-worker package
+        working-directory: functions/scheduled-worker
+        run: npm run build
+
+      - name: Upload package artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: items-api-package
-          path: functions/items-api/../items-api.zip
+          name: lambda-packages
+          path: |
+            functions/items-api/../items-api.zip
+            functions/event-processor/../event-processor.zip
+            functions/scheduled-worker/../scheduled-worker.zip

@@ -75,3 +75,24 @@ resource "aws_iam_role_policy_attachment" "lambda_dynamodb_attach" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.dynamodb_policy.arn
 }
+
+data "aws_iam_policy_document" "eventbridge_put_events" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "events:PutEvents"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "eventbridge_put_policy" {
+  name   = "${var.app_name}-lambda-put-events"
+  policy = data.aws_iam_policy_document.eventbridge_put_events.json
+  tags   = local.common_tags
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_put_events_attach" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.eventbridge_put_policy.arn
+}

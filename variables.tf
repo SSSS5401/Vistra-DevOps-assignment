@@ -61,3 +61,9 @@ variable "dynamodb_throttle_threshold" {
   description = "Alarm threshold for DynamoDB throttled requests (sum per minute)"
 }
 
+variable "scheduled_worker_expression" {
+  type        = string
+  default     = "rate(5 minutes)"
+  description = "Schedule expression for the scheduled worker lambda"
+}
+

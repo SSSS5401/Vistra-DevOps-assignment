@@ -42,6 +42,10 @@ resource "aws_lambda_function" "this" {
 
   tags = var.tags
 
+  environment {
+    variables = var.environment
+  }
+
   depends_on = [
     aws_s3_object.this,
   ]

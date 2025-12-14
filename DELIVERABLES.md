@@ -24,4 +24,4 @@ This file maps the assignment requirements to files and features implemented in 
 
 Optional / Next steps:
 - Add CloudWatch dashboards and alarms for production readiness
-- Add EventBridge event processors and DLQ
+- Add EventBridge event processors and DLQ (see `EVENTBRIDGE.md`)
