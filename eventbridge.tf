@@ -3,6 +3,19 @@ resource "aws_sqs_queue" "event_dlq" {
   tags = local.common_tags
 }
 
+resource "aws_sqs_queue" "event_dlq_encrypted" {
+  provider = aws
+  name     = "${var.app_name}-events-dlq-encrypted"
+  tags     = local.common_tags
+
+  kms_master_key_id = aws_kms_key.vistra.arn
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
+
 # EventBridge rule for custom app events
 resource "aws_cloudwatch_event_rule" "app_events" {
   name = "${var.app_name}-app-events"
@@ -18,7 +31,7 @@ resource "aws_cloudwatch_event_target" "app_events_target" {
   arn  = module.lambda_event_processor.lambda_function_arn
 
   dead_letter_config {
-    arn = aws_sqs_queue.event_dlq.arn
+    arn = aws_sqs_queue.event_dlq_encrypted.arn
   }
 }
 
@@ -33,7 +46,7 @@ resource "aws_cloudwatch_event_target" "scheduled_worker_target" {
   arn  = module.lambda_scheduled_worker.lambda_function_arn
 
   dead_letter_config {
-    arn = aws_sqs_queue.event_dlq.arn
+    arn = aws_sqs_queue.event_dlq_encrypted.arn
   }
 }
 
@@ -65,17 +78,17 @@ resource "aws_cloudwatch_metric_alarm" "dlq_messages" {
   statistic           = "Sum"
   threshold           = 1
   dimensions = {
-    QueueName = aws_sqs_queue.event_dlq.name
+    QueueName = aws_sqs_queue.event_dlq_encrypted.name
   }
 }
 
 output "event_dlq_name" {
-  value       = aws_sqs_queue.event_dlq.name
+  value       = aws_sqs_queue.event_dlq_encrypted.name
   description = "Name of the Event DLQ"
 }
 
 output "event_dlq_arn" {
-  value       = aws_sqs_queue.event_dlq.arn
+  value       = aws_sqs_queue.event_dlq_encrypted.arn
   description = "ARN of the Event DLQ"
 }
 

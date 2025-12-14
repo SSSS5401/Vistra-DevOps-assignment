@@ -10,6 +10,11 @@ resource "aws_dynamodb_table" "this" {
 
   server_side_encryption {
     enabled = true
+    kms_key_arn = var.kms_key_arn
+  }
+
+  point_in_time_recovery {
+    enabled = true
   }
 
   tags = var.tags

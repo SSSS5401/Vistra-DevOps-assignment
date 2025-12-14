@@ -30,7 +30,8 @@ data "aws_iam_policy_document" "cloudwatch_policy" {
       "logs:PutLogEvents"
     ]
     resources = [
-      "arn:aws:logs:*:*:*"
+      "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.app_name}-*",
+      "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.app_name}-*:*"
     ]
   }
 }
@@ -82,7 +83,9 @@ data "aws_iam_policy_document" "eventbridge_put_events" {
     actions = [
       "events:PutEvents"
     ]
-    resources = ["*"]
+    resources = [
+      "arn:aws:events:*:${data.aws_caller_identity.current.account_id}:event-bus/*"
+    ]
   }
 }
 
