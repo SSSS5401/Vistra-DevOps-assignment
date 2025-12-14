@@ -76,9 +76,9 @@ terraform output s3_bucket_name
 
 Workflows are provided to run on PRs and pushes:
 
- - `terraform.yml` - runs `terraform fmt -check`.
-   It runs `terraform init -backend=false` and `terraform validate`.
-   The workflow also performs `tfsec` security scans.
+- `terraform.yml` - runs `terraform fmt -check`.
+  It runs `terraform init -backend=false` and `terraform validate`.
+  The workflow also performs `tfsec` security scans.
 - `nodejs.yml` - sets up Node.js 22, installs dependencies, and builds the
   Lambda package.
 - `markdownlint.yml` - validates Markdown formatting.
@@ -94,7 +94,7 @@ request/response examples, and an overview of logging and validation.
 
 - [x] Task 1: Terraform structure, S3, DynamoDB, IAM, CloudWatch
 - [x] Task 2: Lambda — CRUD handlers (mocked responses), API Gateway, CORS,
-  and IAM
+      and IAM
 - [x] Task 3: GitHub Actions for validation and build (Terraform & Node.js)
 
 ## Next steps / optional
