@@ -1,0 +1,34 @@
+name: Terraform Validation
+
+on:
+  push:
+    paths:
+      - '**/*.tf'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - '**/*.tf'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1
+        with:
+          tfsec_version: latest

@@ -14,7 +14,7 @@ jobs:
 
         steps:
         - name: Checkout code
-          uses: actions/checkout@v4
+          uses: actions/checkout@v5
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -29,6 +29,7 @@ jobs:
         #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         #     aws-region: eu-west-2
+
         - name: Terraform Verify formatting
           run: terraform fmt -check -recursive
 
@@ -37,3 +38,21 @@ jobs:
 
         - name: Terraform Validate
           run: terraform validate
+    
+    lambda:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v5
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Set up Node.js 22
+          uses: actions/setup-node@v4
+          with:
+            node-version: '22.x'
+        - run: npm ci
+        - run: npm run build --if-present
+        # - run: npm test
+

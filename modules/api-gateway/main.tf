@@ -68,6 +68,70 @@ resource "aws_api_gateway_integration" "lambda" {
   uri                     = data.aws_lambda_function.lambda_functions[each.value.lambda_function_name].invoke_arn
 }
 
+# CORS support: add OPTIONS method + MOCK integration for each resource
+resource "aws_api_gateway_method" "options" {
+  for_each = aws_api_gateway_resource.path
+
+  rest_api_id   = aws_api_gateway_rest_api.this.id
+  resource_id   = each.value.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "options_integration" {
+  for_each = aws_api_gateway_method.options
+
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = each.value.resource_id
+  http_method = each.value.http_method
+
+  type = "MOCK"
+
+  request_templates = {
+    "application/json" = "{\"statusCode\": 200}"
+  }
+
+  passthrough_behavior = "WHEN_NO_MATCH"
+}
+
+resource "aws_api_gateway_method_response" "options_response" {
+  for_each = aws_api_gateway_method.options
+
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = each.value.resource_id
+  http_method = each.value.http_method
+  status_code = "200"
+
+  response_models = {
+    "application/json" = "Empty"
+  }
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "options_integration_response" {
+  for_each = aws_api_gateway_integration.options_integration
+
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = each.value.resource_id
+  http_method = each.value.http_method
+  status_code = "200"
+
+  response_templates = {
+    "application/json" = "{}"
+  }
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,POST,PUT,DELETE,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+  }
+}
+
 resource "aws_lambda_permission" "lambda_permission" {
   for_each = {
     for l in local.lambda_function_list : l => l

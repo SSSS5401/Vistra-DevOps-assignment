@@ -45,7 +45,7 @@ data "aws_iam_policy_document" "dynamodb_policy" {
       "dynamodb:DeleteItem",
     ]
     resources = [
-      "arn:aws:dynamodb:*:*:table/ApplicationData"
+      module.dynamodb.table_arn
     ]
   }
 }
