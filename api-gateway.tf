@@ -4,8 +4,8 @@ module "apigateway" {
   apigateway_setting = {
     paths = [
       {
-        path    = "items"
-        methods = ["GET", "POST", "PUT", "DELETE"]
+        path                 = "items"
+        methods              = ["GET", "POST", "PUT", "DELETE"]
         lambda_function_name = "LambdaHandler"
       }
     ]
