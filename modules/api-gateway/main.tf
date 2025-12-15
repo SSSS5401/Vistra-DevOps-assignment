@@ -230,21 +230,13 @@ resource "aws_iam_role_policy" "apigw_cloudwatch_role_policy" {
         Effect = "Allow",
         Action = [
           "logs:CreateLogGroup",
-          "logs:DescribeLogGroups"
-        ],
-        Resource = [
-          aws_cloudwatch_log_group.api_gw_access_logs.arn
-        ]
-      },
-      {
-        Effect = "Allow",
-        Action = [
+          "logs:DescribeLogGroups",
           "logs:CreateLogStream",
           "logs:DescribeLogStreams",
           "logs:PutLogEvents"
         ],
         Resource = [
-          "${aws_cloudwatch_log_group.api_gw_access_logs.arn}:*"
+          aws_cloudwatch_log_group.api_gw_access_logs.arn
         ]
       }
     ]
